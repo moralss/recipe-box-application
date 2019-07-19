@@ -1,0 +1,38 @@
+<template>
+  <div>
+    <h1>List of Recipes</h1>
+    <Recipe v-for="(recipe , id) in recipes" 
+     :key="id" :recipe="recipe"
+     :id="id"></Recipe>
+    <h1>Add Recipe</h1>
+    <Add />
+    <Edit></Edit>
+  </div>
+</template>
+
+<script>
+import { mapGetters} from "vuex";
+import { mapActions} from "vuex";
+export default {
+  name: "Recipes",
+  computed: {
+    ...mapGetters({
+      recipes: "getRecipes"
+    })
+  },
+  components: {
+    Recipe: require("./Recipe").default,
+    Add: require("./Add").default,
+    Edit: require("./Edit").default
+  },
+  methods: {
+    ...mapActions(["fetchRecipes"])
+  },
+  created: function() {
+    this.$store.dispatch("fetchRecipes");
+  }
+};
+</script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+</style>

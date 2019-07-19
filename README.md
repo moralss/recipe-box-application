@@ -1,2 +1,2 @@
 # recipe-box-application
-working with fun tools
+Created a simple recipe box application using C# and Vue.js.
