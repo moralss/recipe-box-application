@@ -1,0 +1,9 @@
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\bin\Debug\netstandard2.0\RecipeApplication.Utility.deps.json
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\bin\Debug\netstandard2.0\RecipeApplication.Utility.dll
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\obj\Debug\netstandard2.0\RecipeApplication.Utility.csprojAssemblyReference.cache
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\obj\Debug\netstandard2.0\RecipeApplication.Utility.csproj.CoreCompileInputs.cache
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\obj\Debug\netstandard2.0\RecipeApplication.Utility.AssemblyInfoInputs.cache
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\obj\Debug\netstandard2.0\RecipeApplication.Utility.AssemblyInfo.cs
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\bin\Debug\netstandard2.0\RecipeApplication.Utility.pdb
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\obj\Debug\netstandard2.0\RecipeApplication.Utility.dll
+C:\Users\Moral\workspace\vue-and-quasar\recipe-application\RecipeApplication.Utility\obj\Debug\netstandard2.0\RecipeApplication.Utility.pdb
