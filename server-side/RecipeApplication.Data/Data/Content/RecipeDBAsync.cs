@@ -16,11 +16,11 @@ namespace RecipeApplication.Data.Data.Content
 
         private struct StoredProc
         {
-            public const string Recipe_Create = "content.Recipe_Create";
-            public const string Recipe_Get = "content.Recipe_Get";
+            public const string Recipe_Create = "Content.Recipe_Create";
+            public const string Recipe_Get = "Content.Recipe_Get";
             public const string Recipes_Get = "Content.Recipes_Get";
             public const string Recipe_Update = "Content.Recipe_Update";
-            //public const string Commentary_Delete = "Content.Commentary_Delete";
+            public const string Recipe_Delete = "Content.Recipe_Delete";
         }
 
         private struct Parameter
@@ -28,15 +28,16 @@ namespace RecipeApplication.Data.Data.Content
             public const string Id = "@Id";
             public const string RecipeName = "@RecipeName";
             public const string Ingredients = "@Ingredients";
-          
+ 
         }
 
         #endregion Stored proc names, parameters...
 
         #region Create async
 
-        internal static async Task<int> CreateAsync(RecipeNew recipe)
+        internal static async Task<Recipe> CreateAsync(RecipeNew recipe)
         {
+            Recipe addedRecipe = null;
             int id;
             try
       
@@ -49,11 +50,10 @@ namespace RecipeApplication.Data.Data.Content
                         cmd.Parameters.Add(Parameter.Id, SqlDbType.Int).Direction = ParameterDirection.Output;
                         cmd.Parameters.AddWithValue(Parameter.RecipeName, recipe.RecipeName);
                         cmd.Parameters.AddWithValue(Parameter.Ingredients, recipe.Ingredients);             
-
                         await connection.OpenAsync();
                         await cmd.ExecuteNonQueryAsync();
                         id = Int32.Parse(cmd.Parameters[Parameter.Id].Value.ToString());
-                        
+                         addedRecipe = await GetAsync(id);
                     }
                 }
             }
@@ -62,7 +62,7 @@ namespace RecipeApplication.Data.Data.Content
                 throw;
             }
 
-            return id;
+            return addedRecipe;
         }
 
         #endregion Create async
@@ -80,9 +80,8 @@ namespace RecipeApplication.Data.Data.Content
                     using (var cmd = new SqlCommand(StoredProc.Recipe_Get, connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                        connection.Open();
                         cmd.Parameters.Add(Parameter.Id, SqlDbType.Int).Value = id;
-                        await connection.OpenAsync();
-
                         using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             if (reader != null && await reader.ReadAsync())
@@ -91,13 +90,14 @@ namespace RecipeApplication.Data.Data.Content
                             }
                         }
                     }
+
+                    connection.Close();
                 }
             }
             catch (Exception)
             {
                 throw;
             }
-
             return retVal;
         }
 
@@ -106,8 +106,7 @@ namespace RecipeApplication.Data.Data.Content
         #region Gets async
     
          internal static  async Task<List<Recipe>> GetsAsync()
-        {
-           
+        {     
             List<Recipe> listOfRecipes = new List<Recipe>();
             try
             {
@@ -116,22 +115,17 @@ namespace RecipeApplication.Data.Data.Content
                     using (var cmd = new SqlCommand(StoredProc.Recipes_Get, connection))
                     {
 
-                        {
-                   
+                        {                  
                             cmd.CommandType = CommandType.StoredProcedure;
 
                             connection.Open();
                             SqlDataReader rdr = cmd.ExecuteReader();
-
                             while (rdr.Read())
                             {
                                 Recipe recipe = new Recipe();
-
                                 recipe.Id = Convert.ToInt32(rdr["Id"]);
-                                recipe.RecipeName = rdr["recipe_name"].ToString();
-                                recipe.Ingredients = rdr["ingredients"].ToString();
-
-
+                                recipe.RecipeName = rdr["recipeName"].ToString();
+                                recipe.Ingredients = rdr["Ingredients"].ToString();
                                 listOfRecipes.Add(recipe);
                             }
                             connection.Close();
@@ -145,7 +139,6 @@ namespace RecipeApplication.Data.Data.Content
                 throw;
             }
 
-            return listOfRecipes;
         }
 
         #endregion Gets async
@@ -178,5 +171,37 @@ namespace RecipeApplication.Data.Data.Content
         }
 
         #endregion Update async
+
+
+        #region Delete async
+
+
+        internal static async Task DeleteAsync(int id)
+        {
+
+            try
+            {
+                using (var connection = new SqlConnection(GlobalSettings.DbConnectionString))
+                {
+                    using (var cmd = new SqlCommand(StoredProc.Recipe_Delete, connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add(Parameter.Id, SqlDbType.Int).Value = id;
+                   
+                        await connection.OpenAsync();
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        #endregion Delete async
+
+ 
     }
 }

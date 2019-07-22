@@ -12,9 +12,9 @@ namespace RecipeApplication.Data.Processes
         class ContentProcesses
     {
         #region Create
-        public static async Task<CallReturn<int>> CreateRecipeAsync(RecipeNew recipe)
+        public static async Task<CallReturn<Recipe>> CreateRecipeAsync(RecipeNew recipe)
         {
-            var retVal = new CallReturn<int>();
+            var retVal = new CallReturn<Recipe>();
             try
             {
                 retVal.Object = await RecipeDBAsync.CreateAsync(new RecipeNew
@@ -100,6 +100,27 @@ namespace RecipeApplication.Data.Processes
 
             return retVal;
         }
+
+        #endregion
+
+        #region Delete
+
+        public static async Task<CallReturn<int>> DeleteRecipeAsync(int id)
+        {
+            var retVal = new CallReturn<int>();
+
+            try
+            {
+            await RecipeDBAsync.DeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                retVal.SetError(ErrorType.SystemError, ex);
+            }
+
+            return retVal;
+        }
+
 
         #endregion
     }

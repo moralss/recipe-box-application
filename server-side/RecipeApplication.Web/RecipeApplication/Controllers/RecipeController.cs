@@ -16,7 +16,6 @@ namespace RecipeApplication.Controllers
 
     public class RecipeController : ControllerBase
     {
-
         [HttpPost]
         public async Task<IActionResult> AddRecipes([FromBody] RecipeNew recipe)
         {
@@ -43,7 +42,6 @@ namespace RecipeApplication.Controllers
             return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
-
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] RecipeNew recipe)
         {
@@ -69,8 +67,6 @@ namespace RecipeApplication.Controllers
 
             return StatusCode((int)HttpStatusCode.InternalServerError);
         }
-
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -102,16 +98,28 @@ namespace RecipeApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            // my code for retriving all recipes is not working 
-
+       
            List<Recipe> recipeList = await ContentProcesses.GetRecipesAsync();
             return Ok(recipeList);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var retVal = await ContentProcesses.DeleteRecipeAsync(id);
 
+            switch (retVal.State)
+            {
+                case CallReturnState.Success:
+                    return Ok(retVal);
+                case CallReturnState.Warning:
+                case CallReturnState.ValidationError:
+                    return BadRequest(retVal.Errors);
+                case CallReturnState.Failure:
+                    return StatusCode((int)HttpStatusCode.InternalServerError, retVal.Errors);
+            }
+
+            return Ok();
         }
 
     }
