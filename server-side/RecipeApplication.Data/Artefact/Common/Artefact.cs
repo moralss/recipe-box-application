@@ -18,24 +18,12 @@ namespace RecipeApplication.Data.Artefact.Common
             set;
         }
 
-        [DataMember]
-        public Int32? ModifiedUserId
-        {
-            get;
-            set;
-        }
+    
 
-        [DataMember]
-        public Boolean IsActive
-        {
-            get;
-            set;
-        }
-
+  
         public void SetDefaults()
         {
-            this.IsActive = true;
-            this.ModifiedUserId = 1; //Admin user...
+   
         }
 
     }

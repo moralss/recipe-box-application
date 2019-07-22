@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace RecipeApplication.Data.Processes
 {
-    public static class ContentProcesses
+    public static
+        class ContentProcesses
     {
         #region Create
         public static async Task<CallReturn<int>> CreateRecipeAsync(RecipeNew recipe)

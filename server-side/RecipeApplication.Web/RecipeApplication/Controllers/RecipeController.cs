@@ -105,7 +105,7 @@ namespace RecipeApplication.Controllers
             // my code for retriving all recipes is not working 
 
            List<Recipe> recipeList = await ContentProcesses.GetRecipesAsync();
-            return Ok("send message");
+            return Ok(recipeList);
         }
 
         [HttpDelete("{id}")]

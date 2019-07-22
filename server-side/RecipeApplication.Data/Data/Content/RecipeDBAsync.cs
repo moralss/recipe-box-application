@@ -105,36 +105,38 @@ namespace RecipeApplication.Data.Data.Content
 
         #region Gets async
     
-         internal static async Task<List<Recipe>> GetsAsync()
+         internal static  async Task<List<Recipe>> GetsAsync()
         {
-            Recipe retVal = null;
-            List<Recipe> RecipeList = new List<Recipe>();
+           
+            List<Recipe> listOfRecipes = new List<Recipe>();
             try
             {
                 using (SqlConnection connection = new SqlConnection(GlobalSettings.DbConnectionString))
                 {
                     using (var cmd = new SqlCommand(StoredProc.Recipes_Get, connection))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        
-                        await connection.OpenAsync();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        //using (var reader = await cmd.ExecuteReaderAsync())
+
                         {
-                            //                        if (reader != null && await reader.ReadAsync())
-                            //                      {
-                            //                        retVal = new Recipe(reader);
-                            //                      RecipeList.Add(retVal);
-                            //                }
-                            while (reader.Read())
+                   
+                            cmd.CommandType = CommandType.StoredProcedure;
+
+                            connection.Open();
+                            SqlDataReader rdr = cmd.ExecuteReader();
+
+                            while (rdr.Read())
                             {
-                                retVal = new Recipe();
-                                retVal.Id = int.Parse(reader["Id"].ToString());
-                                retVal.RecipeName = reader["RecipeName"].ToString();
-                                retVal.Ingredients = reader["Ingredients"].ToString();
-                                RecipeList.Add(retVal);
+                                Recipe recipe = new Recipe();
+
+                                recipe.Id = Convert.ToInt32(rdr["Id"]);
+                                recipe.RecipeName = rdr["recipe_name"].ToString();
+                                recipe.Ingredients = rdr["ingredients"].ToString();
+
+
+                                listOfRecipes.Add(recipe);
                             }
+                            connection.Close();
                         }
+                        return listOfRecipes;
                     }
                 }
             }
@@ -143,7 +145,7 @@ namespace RecipeApplication.Data.Data.Content
                 throw;
             }
 
-            return RecipeList;
+            return listOfRecipes;
         }
 
         #endregion Gets async
