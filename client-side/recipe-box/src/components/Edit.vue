@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1> Edit Recipe Item</h1>
     <label for>recipeName</label>
     <input type="text" v-model="editRecipe.recipeName" placeholder="recipeName" />
     <label for>ingredient</label>
@@ -8,8 +9,8 @@
   </div>
 </template>
 <script>
-import { mapActions, mapMutations , mapGetters } from "vuex";
-import { TOGGLE_IS_EDIT } from "../store/types";
+import { mapActions , mapGetters } from "vuex";
+
 export default {
   name: "Edit",
   props: ["recipe"],
@@ -23,6 +24,7 @@ export default {
     submitEditedRecipe(recipeName, ingredients) {
       const recipeInfo = { recipeName, ingredients, id: this.editRecipe.id};
       this.$store.dispatch("editRecipe", recipeInfo);
+
     }
   }
 }

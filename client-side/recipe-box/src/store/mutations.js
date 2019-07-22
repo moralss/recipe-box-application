@@ -4,8 +4,12 @@ import * as types from './types';
      [types.ADD_RECIPE] :  (state , payload) => {
         state.recipes.push(payload);
  },
-    [types.DELETE_RECIPE]: (state , payload) => {
-            state.recipes.splice(payload , 1);
+    [types.DELETE_RECIPE]: (state , id ) => {
+            state.recipes.forEach((recipe , index) => {
+             if(recipe.id == id){
+                state.recipes.splice(index , 1);
+             }
+        });
     },
     [types.EDIT_RECIPE]: (state ,payload) => {
             for (var i in state.recipes) {
