@@ -11,6 +11,13 @@ import * as types from './types';
              }
         });
     },
+    [types.ADD_INGREDIENTS] : (state , payload) => {
+        state.ingredients.push(payload);
+    },
+    [types.FETCH_INGREDIENTS] : (state , payload) => {
+        state.ingredients.push(...payload);
+
+    },
     [types.EDIT_RECIPE]: (state ,payload) => {
             for (var i in state.recipes) {
             if (i == payload.index) {
@@ -25,7 +32,7 @@ import * as types from './types';
     },
     [types.FETCH_RECIPES] : (state , payload) => {
       state.recipes.push(...payload);  
-}
+},
 }
 
 

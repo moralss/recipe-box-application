@@ -1,11 +1,9 @@
 <template>
   <div>
-    <h1> Edit Recipe Item</h1>
+    <h1> Edit Recipe Name</h1>
     <label for>recipeName</label>
     <input type="text" v-model="editRecipe.recipeName" placeholder="recipeName" />
-    <label for>ingredient</label>
-    <input type="text" v-model="editRecipe.ingredients" placeholder="ingredient" />
-    <button @click="submitEditedRecipe(editRecipe.recipeName , editRecipe.ingredients)">submit</button>
+    <button @click="submitEditedRecipe(editRecipe.recipeName)">submit</button>
   </div>
 </template>
 <script>
@@ -21,10 +19,9 @@ export default {
   },
   methods: {
     ...mapActions(["editRecipe"]),
-    submitEditedRecipe(recipeName, ingredients) {
-      const recipeInfo = { recipeName, ingredients, id: this.editRecipe.id};
+    submitEditedRecipe(recipeName) {
+      const recipeInfo = { recipeName, id: this.editRecipe.id};
       this.$store.dispatch("editRecipe", recipeInfo);
-
     }
   }
 }

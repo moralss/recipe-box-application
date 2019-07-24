@@ -25,8 +25,6 @@ export const actions = {
       await axios.put(`https://localhost:44353/api/recipe`, {
         ...payload
       });
-
-
       commit(types.EDIT_RECIPE, payload);
     } catch (e) {
       throw e;
@@ -39,6 +37,23 @@ export const actions = {
     } catch (e) {
       throw e;
     }
-  }
-
+  },
+  fetchIngredient: async ({commit} , id) => {
+    try {
+      let { data } = await axios.get(`https://localhost:44353/api/ingredient/${id}`);
+      commit(types.FETCH_INGREDIENTS, data);
+    } catch (e) {
+      throw e;
+    }
+  },
+  addIngredient: async ({ commit }, payload) => {
+    try {
+    let { data } = await axios.post("https://localhost:44353/api/ingredient", {
+      ...payload
+    });
+    commit(types.ADD_INGREDIENTS, data.object);
+  } catch (e) {
+    throw e;
+  } 
+}
 };

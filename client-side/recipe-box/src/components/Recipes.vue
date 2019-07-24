@@ -3,8 +3,7 @@
     <div>
       <h1>List of Recipes</h1>
       <Recipe v-for="(recipe , id) in recipes" 
-      :key="id" :recipe="recipe"
-      :id="id"></Recipe>
+      :key="id" :recipe="recipe"></Recipe>
     </div>
     <div>
       <Add ></Add>

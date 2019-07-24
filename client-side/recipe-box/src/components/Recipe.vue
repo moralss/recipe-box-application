@@ -4,8 +4,7 @@
       <strong>RECIPE NAME : </strong>
       <span>{{recipe.recipeName}}</span>
     </h3>
-     <small>ingredients </small>
-    <p>{{recipe.ingredients}}</p>
+    <Ingredients :recipeId="recipe.id"></Ingredients>
     <button @click="removeRecipe(recipe.id)">DELETE</button>
     <button @click="changeIsEdited(recipe)">EDIT</button>
   </div>
@@ -15,17 +14,16 @@ import { mapMutations, mapActions } from "vuex";
 import { TOGGLE_IS_EDIT } from "../store/types";
 export default {
   name: "Recipe",
-  props: ["recipe", "id"],
-
+  props: ["recipe"],
+  components: {
+     Ingredients: require("./Ingredients").default
+  },
   methods: {
     ...mapActions(["removeRecipe"]),
     ...mapMutations({"changeIsEdited" : TOGGLE_IS_EDIT}),
     removeRecipe(id) {
       this.$store.dispatch("removeRecipe", id);
     }
-  },
-  components: {
-    // Edit: require("./Edit").default
   }
 };
 </script>
