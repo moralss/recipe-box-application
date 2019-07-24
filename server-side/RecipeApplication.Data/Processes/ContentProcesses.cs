@@ -11,6 +11,9 @@ namespace RecipeApplication.Data.Processes
     public static
         class ContentProcesses
     {
+
+        #region Recipe
+
         #region Create
         public static async Task<CallReturn<Recipe>> CreateRecipeAsync(RecipeNew recipe)
         {
@@ -19,8 +22,7 @@ namespace RecipeApplication.Data.Processes
             {
                 retVal.Object = await RecipeDBAsync.CreateAsync(new RecipeNew
                 {
-                    RecipeName = recipe.RecipeName,
-                    Ingredients = recipe.Ingredients
+                    RecipeName = recipe.RecipeName
                 });
             }
             catch (Exception ex)
@@ -33,7 +35,6 @@ namespace RecipeApplication.Data.Processes
 
         }
         #endregion
-
 
         #region Get
 
@@ -76,7 +77,6 @@ namespace RecipeApplication.Data.Processes
 
         #endregion
 
-
         #region Update
 
         public static async Task<CallReturn<int>> UpdateRecipeAsync(RecipeNew recipe)
@@ -88,8 +88,7 @@ namespace RecipeApplication.Data.Processes
                 await RecipeDBAsync.UpdateAsync(new RecipeNew
                 {
                     Id = recipe.Id,
-                    RecipeName = recipe.RecipeName,
-                    Ingredients = recipe.Ingredients
+                    RecipeName = recipe.RecipeName
                 });
             }
             catch (Exception ex)
@@ -123,6 +122,60 @@ namespace RecipeApplication.Data.Processes
 
 
         #endregion
+
+       #endregion
+        
+        #region Ingredient
+
+        #region Create
+        public static async Task<CallReturn<Ingredient>> CreateIngredientAsync(IngredientNew ingredient)
+        {
+            var retVal = new CallReturn<Ingredient>();
+            try
+            {
+                retVal.Object = await IngredientDBAsync.CreateAsync(new IngredientNew
+                {
+                    Ingredient = ingredient.Ingredient,
+                    RecipeId = ingredient.RecipeId
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                retVal.SetError(ErrorType.SystemError, ex);
+            }
+
+            return retVal;
+
+        }
+        #endregion
+
+
+        #region Gets
+
+        public static async Task<List<Ingredient>> GetIngredientsAsync(int recipeId)
+        {
+
+            List<Ingredient> ingredientList = new List<Ingredient>();
+
+            try
+            {
+                ingredientList = await IngredientDBAsync.GetsAsync(recipeId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return ingredientList;
+        }
+
+        #endregion
+
+        #endregion
+
+
+
     }
 }
 

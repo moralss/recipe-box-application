@@ -1,10 +1,11 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Runtime.Serialization;
 
 namespace RecipeApplication.Data.Artefact.Content
 {
     [DataContract]
-    public partial class  Recipe: Common.Artefact
+    public partial class Recipe : Common.Artefact
     {
         #region Fields
 
@@ -12,7 +13,7 @@ namespace RecipeApplication.Data.Artefact.Content
         {
             Id,
             RecipeName,
-            Ingredients
+            Ingredients,
         }
 
         #endregion Fields
@@ -27,7 +28,6 @@ namespace RecipeApplication.Data.Artefact.Content
             {
                 this.Id = reader.GetInt32((int)Fields.Id);
                 this.RecipeName = reader.GetString((int)Fields.RecipeName);
-                this.Ingredients = reader.GetString((int)Fields.Ingredients);
             }
         }
 
@@ -50,12 +50,7 @@ namespace RecipeApplication.Data.Artefact.Content
         }
 
 
-        [DataMember]
-        public string Ingredients
-        {
-            get;
-            set;
-        }
+
 
         #endregion Public properties
     }

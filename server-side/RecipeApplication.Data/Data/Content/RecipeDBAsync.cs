@@ -48,8 +48,7 @@ namespace RecipeApplication.Data.Data.Content
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(Parameter.Id, SqlDbType.Int).Direction = ParameterDirection.Output;
-                        cmd.Parameters.AddWithValue(Parameter.RecipeName, recipe.RecipeName);
-                        cmd.Parameters.AddWithValue(Parameter.Ingredients, recipe.Ingredients);             
+                        cmd.Parameters.AddWithValue(Parameter.RecipeName, recipe.RecipeName); 
                         await connection.OpenAsync();
                         await cmd.ExecuteNonQueryAsync();
                         id = Int32.Parse(cmd.Parameters[Parameter.Id].Value.ToString());
@@ -101,8 +100,10 @@ namespace RecipeApplication.Data.Data.Content
             return retVal;
         }
 
-        #endregion Get async
-
+        #endregion Get async     
+        
+        
+        
         #region Gets async
     
          internal static  async Task<List<Recipe>> GetsAsync()
@@ -125,7 +126,6 @@ namespace RecipeApplication.Data.Data.Content
                                 Recipe recipe = new Recipe();
                                 recipe.Id = Convert.ToInt32(rdr["Id"]);
                                 recipe.RecipeName = rdr["recipeName"].ToString();
-                                recipe.Ingredients = rdr["Ingredients"].ToString();
                                 listOfRecipes.Add(recipe);
                             }
                             connection.Close();
@@ -155,10 +155,8 @@ namespace RecipeApplication.Data.Data.Content
                     using (var cmd = new SqlCommand(StoredProc.Recipe_Update, connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-
                         cmd.Parameters.AddWithValue(Parameter.Id, recipe.Id);
                         cmd.Parameters.AddWithValue(Parameter.RecipeName, recipe.RecipeName);
-                        cmd.Parameters.AddWithValue(Parameter.Ingredients, recipe.Ingredients);
                         await connection.OpenAsync();
                         await cmd.ExecuteNonQueryAsync();
                     }
@@ -172,9 +170,7 @@ namespace RecipeApplication.Data.Data.Content
 
         #endregion Update async
 
-
         #region Delete async
-
 
         internal static async Task DeleteAsync(int id)
         {
@@ -186,9 +182,7 @@ namespace RecipeApplication.Data.Data.Content
                     using (var cmd = new SqlCommand(StoredProc.Recipe_Delete, connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add(Parameter.Id, SqlDbType.Int).Value = id;
-                   
+                        cmd.Parameters.Add(Parameter.Id, SqlDbType.Int).Value = id;            
                         await connection.OpenAsync();
                         await cmd.ExecuteNonQueryAsync();
                     }

@@ -11,7 +11,7 @@ using RecipeApplication.Data.Artefact.Content;
 
 namespace RecipeApplication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/recipe")]
     [ApiController]
 
     public class RecipeController : ControllerBase

@@ -7,10 +7,8 @@ namespace RecipeApplication.Data.Artefact
     public class RecipeNew : Common.Artefact
     {
         #region Constructors
-
         public RecipeNew() { }
 
-  
         #endregion Constructors
 
         #region Public properties
@@ -29,13 +27,15 @@ namespace RecipeApplication.Data.Artefact
             set;
         }
 
-        [DataMember]
-        public string Ingredients
-        {
-            get;
-            set;
-        }
+  //      [DataMember]
+    //    public string Ingredients
+      //  {
+    //        get;
+  //          set;
+      //  }
 
+
+      
         #endregion Public properties
     }
 }
