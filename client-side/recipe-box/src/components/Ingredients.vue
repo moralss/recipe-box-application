@@ -4,8 +4,8 @@
     <ul for v-for="(ingredient) in ingredients">
         <li v-if="ingredient.recipeId == recipeId"> {{ingredient.ingredientName}} </li>
     </ul>
-    <input v-model="Ingredient" placeholder="ingredient"/>
-    <button @click="addIngredient({Ingredient , RecipeId : recipeId})"> Add Ingredient </button> 
+    <input v-model="IngredientName" placeholder="ingredient"/>
+    <button @click="addNewIngredient()"> Add Ingredient </button> 
   </div>
 </template>
 <script>
@@ -15,7 +15,7 @@ export default {
   props: ["recipeId"],
   data() {
     return {
-      Ingredient: ""
+      IngredientName: ""
     }
   },
   components: {
@@ -26,11 +26,15 @@ export default {
       ingredients: "getIngredients"
     })
   },
-  created : function (){
+  created : function() {
     this.$store.dispatch("fetchIngredient",  this.$props.recipeId);
   },
   methods: {
-    ...mapActions(["addIngredient"])
+    ...mapActions(["addIngredient"]),
+    addNewIngredient: function() {
+      this.addIngredient({Ingredient : this.IngredientName , RecipeId : this.$props.recipeId});
+      this.IngredientName = "";
+    }
   }
 };
 </script>
