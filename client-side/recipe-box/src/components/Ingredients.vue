@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Ingredients </h1>
-    <ul for v-for="(ingredient) in ingredients">
+    <ul :key="ingredient.id" for v-for="(ingredient) in ingredients">
         <li v-if="ingredient.recipeId == recipeId"> {{ingredient.ingredientName}} </li>
     </ul>
     <input v-model="IngredientName" placeholder="ingredient"/>
@@ -17,9 +17,6 @@ export default {
     return {
       IngredientName: ""
     }
-  },
-  components: {
-    Ingredients: require("./Ingredients").default
   },
    computed: {
     ...mapGetters({
